@@ -4,6 +4,7 @@ import "./App.css";
 const App = () => {
   const [todos, setTodos] = React.useState([]);
   const [todo, setTodo] = React.useState("");
+  const [searchTodo, setSearchTodo] = React.useState("");
   const [todoEditing, setTodoEditing] = React.useState(null);
   const [editingText, setEditingText] = React.useState("");
 
@@ -58,6 +59,8 @@ const App = () => {
     setTodoEditing(null);
   }
 
+  const visibleTodos = searchTodo ? todos.filter(({ text }) => text.includes(searchTodo)) : todos;
+
   return (
     <div id="todo-list">
       <h1>Hall of Fame</h1>
@@ -72,12 +75,12 @@ const App = () => {
       <form>
         <input
           type="text"
-          onChange={(e) => setTodo(e.target.value)}
-          value={todo}
+          onChange={(e) => setSearchTodo(e.target.value)}
+          value={searchTodo}
         />
         <button type="submit">Search</button>
       </form>
-      {todos.map((todo) => (
+      {visibleTodos.map((todo) => (
         <div key={todo.id} className="todo">
           <div className="todo-text">
             <input
